@@ -106,13 +106,13 @@ $ fbgs file.pdf
 ```
 Both tools are shipped with the OS already
 
-## Video
-Plays using software renderer, which means CPU, which will be **very slow**:
+## Videos
+Using software renderer, which means CPU, which will be **very slow**:
 ```bash
 mplayer video.mp4 -vo fbdev2 -vf scale=640:480
 ```
 
-Plays using hardware/GPU h264 decoder acceleration (make sure the video was h264 encoded):
+Using hardware/GPU h264 decoder acceleration (make sure the video was h264 encoded):
 ```bash
 omxplayer video.mp4 
 ```
@@ -125,7 +125,7 @@ omxplayer video.mp4
 Here is a video showing the difference between both playing the same video, mplayer(CPU) Vs omxplayer(GPU):  
 <YT video>
 
-## Userland
+## Userland GPU Demos
 Userland was mentioned in the GPU section, let's run the demos and finally see the GPU in action:
 ```bash
 $ git clone https://github.com/raspberrypi/userland
