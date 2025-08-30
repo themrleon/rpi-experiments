@@ -100,4 +100,7 @@ In the `hello_pi` folder you will find GPU demos, run any `.bin` file from any o
 # Using SPI with ST7789 Display
 
 # VNC
+Yes, you can use VNC to share the console directly! You don't need a full desktop environment for this. so "Why not just use a simple SSH connection?" you may ask, the key difference is in the type of access:  
+* An SSH connection provides only a text-only terminal. It is perfect for command-line control but cannot display any graphics or applications that render to the screen  
+* A VNC server like x11vnc (when configured for the raw framebuffer) mirrors the entire visual display. This means you can remotely see everything that would appear on the physical monitor
 
