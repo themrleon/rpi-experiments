@@ -104,12 +104,10 @@ For PDF use:
 ```bash
 $ fbgs file.pdf
 ```
-[![Watch the video](https://img.youtube.com/vi/isw05usOtlc/0.jpg)](https://www.youtube.com/watch?v=isw05usOtlc)
 
-Both tools are shipped with the OS already
-
-Here's a video of both in action:
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Watch both toosl in action:  
+[![Watch the video](https://img.youtube.com/vi/yyO0KxJruYs/0.jpg)](https://www.youtube.com/watch?v=yyO0KxJruYs)
+[![Watch the video](https://img.youtube.com/vi/isw05usOtlc/0.jpg)](https://www.youtube.com/watch?v=isw05usOtlc)  
 
 ## Videos
 Using software renderer, which means CPU, which will be **very slow**:
@@ -127,8 +125,8 @@ omxplayer video.mp4
 > https://github.com/popcornmix/omxplayer  
 > But still available from the last Raspbian Buster OS with `sudo apt install omxplayer`
 
-Here is a video showing the difference between both playing the same video, mplayer(CPU) Vs omxplayer(GPU):  
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Watch the difference between both playing the same h264 encoded 480p video, mplayer(CPU) Vs omxplayer(GPU):  
+[![Watch the video](https://img.youtube.com/vi/3zUy5Sg55xg/0.jpg)](https://www.youtube.com/watch?v=3zUy5Sg55xg)  
 
 ## Userland GPU Demos
 Userland was mentioned in the GPU section, let's run the demos and finally see the GPU in action:
@@ -144,8 +142,8 @@ In the `hello_pi` folder you will find demos, run any `.bin` file from any of th
 $ cd hello_triangle
 $ ./hello_triangle.bin
 ```
-Here's a video: 
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Watch them in action:  
+[![Watch the video](https://img.youtube.com/vi/jPbkeuRi7ZE/0.jpg)](https://www.youtube.com/watch?v=jPbkeuRi7ZE)  
 
 ## VNC
 Yes, you can use VNC with console, you don't need a full desktop environment for this, "Why not just use a simple SSH connection?" the key difference is in the type of access:  
