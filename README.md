@@ -69,7 +69,63 @@ Here’s how it relates to key concepts:
 * `Raspberry Pi & Embedded Systems`: It is essential here because it is lightweight and doesn't require a complex graphical environment. It is the standard way to output graphics or video efficiently on low-power devices, making it ideal for kiosks, embedded displays, or media players.  
 In essence, the framebuffer is the most basic way to control a display in Linux, making it critical for embedded and minimalist systems where performance and simplicity are paramount.  
 
-# Userland
+# Performance tips
+* Lower Screen Resolution: Set a lower framebuffer resolution in `config.txt`. This reduces the workload on the GPU and frees up RAM  
+* Overclocking: Safely overclock the CPU from 700MHz to 1GHz using the `config.txt` file. This provides a direct CPU speed boost  
+* Heatsink/Cooling: Essential if overclocking. A simple heatsink helps dissipate heat and prevents the system from throttling due to high temperatures  
+* Light drivers: Use things that have built-in drivers in kernel since they tend to be smaller, I have an USB Wifi device which driver eats a lot of RAM compared to another older USB wifi card model that has built-in driver support  
+* Fast SD Card: Use a Class 10 or UHS-I microSD card with high read/write speeds (beware of fake ones). The entire system runs from the SD card, so a slow card bottlenecks everything  
+* Reduce GPU RAM: In `config.txt`, lower gpu_mem (e.g., gpu_mem=16). This allocates more of the limited 512MB of total RAM to the system instead of the GPU, which is crucial for memory-heavy tasks unless you need high-resolution graphics  
+* Disable Unused Services: Stop background services you don't need (e.g., bluetooth, avahi-daemon). Use a tool like `raspi-config` or `systemctl disable` to free up CPU and RAM  
+* Use ZRAM (Swap Compression): Create a compressed swap area in RAM. This is much faster than using a slow SD card for traditional swap and helps prevent out-of-memory crashes  
+* Power Supply: Use a high-quality 5V/1.5A power adapter. Under-voltage causes throttling, slowdowns, and instability  
+* Optimize Software: Use efficient, compiled languages like C over interpreted ones like Python for CPU-intensive tasks
+
+# My setup
+I will use the following settings in `/boot/config.txt`:
+```
+framebuffer_width=640
+framebuffer_height=480
+framebuffer_depth=16
+arm_freq=800
+gpu_mem=128
+```
+These will impact the experiments/syntax you will see ahead, so make sure to adjust as needed for your case
+
+# Experiments
+
+## Images
+Linux framebuffer imageviewer supports PhotoCD, jpeg, ppm, gif, tiff, xpm, xwd, bmp, png and webp, ex:    
+```bash
+$ fbi image.jpeg
+```
+
+For PDF use:
+```bash
+$ fbgs file.pdf
+```
+Both tools are shipped with the OS already
+
+## Video
+Plays using software renderer, which means CPU, which will be **very slow**:
+```bash
+mplayer video.mp4 -vo fbdev2 -vf scale=640:480
+```
+
+Plays using hardware/GPU h264 decoder acceleration (make sure the video was h264 encoded):
+```bash
+omxplayer video.mp4 
+```
+
+> [!WARNING]
+> Omxplayer is no longer available to install from latest OS repos and has been deprecated since 2020
+> https://github.com/popcornmix/omxplayer  
+> But still available from the last Raspbian Buster OS with `sudo apt install omxplayer`
+
+Here is a video showing the difference between both playing the same video, mplayer(CPU) Vs omxplayer(GPU):  
+<YT video>
+
+## Userland
 Userland was mentioned in the GPU section, let's run the demos and finally see the GPU in action:
 ```bash
 $ git clone https://github.com/raspberrypi/userland
@@ -86,36 +142,26 @@ $ ./hello_triangle.bin
 Here's a video: 
 <YT video>
 
-# Performance tips
-* Lower Screen Resolution: Set a lower framebuffer resolution in `config.txt`. This reduces the workload on the GPU and frees up RAM  
-* Overclocking: Safely overclock the CPU from 700MHz to 1GHz using the `config.txt` file. This provides a direct CPU speed boost  
-* Heatsink/Cooling: Essential if overclocking. A simple heatsink helps dissipate heat and prevents the system from throttling due to high temperatures  
-* Light drivers: Use things that have built-in drivers in kernel since they tend to be smaller, I have an USB Wifi device which driver eats a lot of RAM compared to another older USB wifi card model that has built-in driver support  
-* Fast SD Card: Use a Class 10 or UHS-I microSD card with high read/write speeds (beware of fake ones). The entire system runs from the SD card, so a slow card bottlenecks everything  
-* Reduce GPU RAM: In `config.txt`, lower gpu_mem (e.g., gpu_mem=16). This allocates more of the limited 512MB of total RAM to the system instead of the GPU, which is crucial for memory-heavy tasks unless you need high-resolution graphics  
-* Disable Unused Services: Stop background services you don't need (e.g., bluetooth, avahi-daemon). Use a tool like `raspi-config` or `systemctl disable` to free up CPU and RAM  
-* Use ZRAM (Swap Compression): Create a compressed swap area in RAM. This is much faster than using a slow SD card for traditional swap and helps prevent out-of-memory crashes  
-* Power Supply: Use a high-quality 5V/1.5A power adapter. Under-voltage causes throttling, slowdowns, and instability  
-* Optimize Software: Use efficient, compiled languages like C over interpreted ones like Python for CPU-intensive tasks
-
-# Running DOS applications
-
-# Using SPI with ST7789 Display
-
-# VNC
-Yes, you can use VNC with console, you don't need a full desktop environment for this. so "Why not just use a simple SSH connection?" the key difference is in the type of access:  
+## VNC
+Yes, you can use VNC with console, you don't need a full desktop environment for this, "Why not just use a simple SSH connection?" the key difference is in the type of access:  
 * An SSH connection provides a text-only terminal. It's perfect for command-line control but cannot display any graphics or applications that render to the screen  
 * A VNC server like x11vnc mirrors the entire visual display. This means you can remotely see everything that would appear on the physical monitor  
 
-Start the VNC server on the raspberry:
+Start the server on the raspberry:
 ```bash
 sudo x11vnc -rawfb console@640x480x16 -auth /dev/null -noxdamage -forever -shared  -repeat -defer 0 -wait 0  -noxinerama -nowf  -nowcr -speeds modem -tightfilexfer
 ```
 
-Now on another device you can run the client:
+Now on any another device run the client, ex:
 ```bash
 vncviewer -SecurityTypes None <Raspberry Pi IP address>:0 -CompressLevel 0 -QualityLevel 0 -FullColor 0 -PreferredEncoding raw -AutoSelect=0
 ```
 
-I tested a couple VNC clients, some of them will allow more options to improve speed and lower quality, reducing lag, TigerVNC was the winner so far, so try a couple yourself. Here's a video:  
+I tested a couple VNC clients, some of them will allow more options than the others, aiming reducing lag, TigerVNC was the winner so far, so try a couple yourself. Here's a video:  
 <YT video>
+
+Notice how they are all mirroring each other, any input from one, will reflect on all the others. Doom is to showcase the lag on each device and graphics capabilities, keep in mind that is all being transmitted via Wifi, results may vary depending on your connection quality and speed. If you want less lag, use an ethernet cable connection instead.
+
+# Running DOS applications
+
+# Using SPI with ST7789 Display
