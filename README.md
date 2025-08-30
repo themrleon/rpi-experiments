@@ -104,6 +104,8 @@ For PDF use:
 ```bash
 $ fbgs file.pdf
 ```
+[![Watch the video](https://img.youtube.com/vi/isw05usOtlc/0.jpg)](https://www.youtube.com/watch?v=isw05usOtlc)
+
 Both tools are shipped with the OS already
 
 Here's a video of both in action:
@@ -164,6 +166,8 @@ I tested a couple VNC clients, some of them will allow more options than the oth
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 Notice how they are all mirroring each other, any input from one, will reflect on all the others. Doom is to showcase the lag on each device and graphics capabilities, keep in mind that is all being transmitted via Wifi, results may vary depending on your connection quality and speed. If you want less lag, use an ethernet cable connection instead.
+
+# USB Camera
 
 # Running DOS applications
 
