@@ -1,5 +1,5 @@
 # What is this?
-Set of experiments revisiting the **Raspberry Pi Model B 512MB** in 2025 to see what it is capable. Since desktop environment is too heavy for it, my focus will be on a thing called **framebuffer**, in headless/console mode, which still allow us to use the GPU and graphics!
+A set of experiments revisiting the **Raspberry Pi Model B 512MB** in 2025 to see what it is capable. Since desktop environment is too heavy for it, my focus will be on a thing called **framebuffer**, in headless/console mode, which still allow us to use the GPU and graphics.
 
 # Raspberry Pi Model B rev 2 512MB
 <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/745bd5f6-3090-40f0-906b-0cd78af5f0d5" />
@@ -60,9 +60,29 @@ Techniques like overclocking or adjusting gpu_mem in config.txt can help allocat
 In short, the Raspberry Pi 1 Model B's GPU is a capable but aging piece of hardware that relies on a mix of open and closed software components to deliver its graphics functionality. While it supports standards like OpenGL ES 2.0, its performance is limited by its hardware design and proprietary drivers.
 
 # What is Framebuffer?
+The Linux framebuffer is a simple interface that provides direct access to the display. It is represented by the device file /dev/fb0.  
+Its core function is to act as a memory buffer (a RAM-based array of pixels) that holds the exact image being sent to the screen. The graphics hardware reads from this buffer continuously to refresh the display.  
+
+Here’s how it relates to key concepts:  
+* `/dev/fb0`: This is the device file. Writing pixel data to this file changes the image on the screen immediately.  
+* `Console Only / Headless`: On systems without a graphical desktop (like a text-only terminal or a headless device with a display attached), the framebuffer is what renders the text console and allows basic graphics to be drawn.  
+* `Raspberry Pi & Embedded Systems`: It is essential here because it is lightweight and doesn't require a complex graphical environment. It is the standard way to output graphics or video efficiently on low-power devices, making it ideal for kiosks, embedded displays, or media players.  
+In essence, the framebuffer is the most basic way to control a display in Linux, making it critical for embedded and minimalist systems where performance and simplicity are paramount.  
 
 # Userland
-https://github.com/raspberrypi/userland
+Userland was mentioned in the GPU section, so let's run the GPU demos and see what it's capable of:
+```bash
+$ git clone https://github.com/raspberrypi/userland
+$ cd userland
+$ ./buildme
+$ cd host_applications/linux/apps/hello_pi/
+$ ./rebuild.sh
+```
+In the `hello_pi` folder you will find GPU demos, run any `.bin` file from any of them, ex:
+```bash
+./hello_triangle/hello_triangle.bin
+```
+
 
 # Running DOS applications
 
