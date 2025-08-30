@@ -18,10 +18,10 @@ A set of experiments revisiting the **Raspberry Pi Model B 512MB** in 2025 to se
 Powered via a 5V microUSB connector. Power consumption ranges 300mA (1.5W) - 700mA (3.5W) (depending on connected peripherals and workload)
 
 # What OS to use?
-It all comes down to the GPU support, if you don't care about GPU and performance, you can still use any 32 bit version:
+It all comes down to the GPU support, if you don't care about GPU and performance, you can use any 32 bit version:
 https://www.raspberrypi.com/software/operating-systems/
 
-For the experiments I will stick with the latest Debian Buster, because it's one of the last OS that supported the GPU of this model:
+For the experiments I will stick with the latest Raspbian Buster, because it's one of the last OS that supported the GPU of this model:
 http://downloads.raspberrypi.com/raspios_oldstable_armhf/images/raspios_oldstable_armhf-2023-05-03/
 
 # Raspberry PI GPU
@@ -78,10 +78,13 @@ $ ./buildme
 $ cd host_applications/linux/apps/hello_pi/
 $ ./rebuild.sh
 ```
-In the `hello_pi` folder you will find GPU demos, run any `.bin` file from any of them, ex:
+In the `hello_pi` folder you will find demos, run any `.bin` file from any of them, ex:
 ```bash
-./hello_triangle/hello_triangle.bin
+$ cd hello_triangle
+$ ./hello_triangle.bin
 ```
+Here's a video: 
+<YT video>
 
 # Performance tips
 * Lower Screen Resolution: Set a lower framebuffer resolution in `config.txt`. This reduces the workload on the GPU and frees up RAM  
@@ -100,7 +103,19 @@ In the `hello_pi` folder you will find GPU demos, run any `.bin` file from any o
 # Using SPI with ST7789 Display
 
 # VNC
-Yes, you can use VNC to share the console directly! You don't need a full desktop environment for this. so "Why not just use a simple SSH connection?" you may ask, the key difference is in the type of access:  
-* An SSH connection provides only a text-only terminal. It is perfect for command-line control but cannot display any graphics or applications that render to the screen  
-* A VNC server like x11vnc (when configured for the raw framebuffer) mirrors the entire visual display. This means you can remotely see everything that would appear on the physical monitor
+Yes, you can use VNC with console, you don't need a full desktop environment for this. so "Why not just use a simple SSH connection?" the key difference is in the type of access:  
+* An SSH connection provides a text-only terminal. It's perfect for command-line control but cannot display any graphics or applications that render to the screen  
+* A VNC server like x11vnc mirrors the entire visual display. This means you can remotely see everything that would appear on the physical monitor  
 
+Start the VNC server on the raspberry:
+```bash
+sudo x11vnc -rawfb console@640x480x16 -auth /dev/null -noxdamage -forever -shared  -repeat -defer 0 -wait 0  -noxinerama -nowf  -nowcr -speeds modem -tightfilexfer
+```
+
+Now on another device you can run the client:
+```bash
+vncviewer -SecurityTypes None <Raspberry Pi IP address>:0 -CompressLevel 0 -QualityLevel 0 -FullColor 0 -PreferredEncoding raw -AutoSelect=0
+```
+
+I tested a couple VNC clients, some of them will allow more options to improve speed and lower quality, reducing lag, TigerVNC was the winner so far, so try a couple yourself. Here's a video:  
+<YT video>
