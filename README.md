@@ -21,7 +21,7 @@ Powered via a 5V microUSB connector. Power consumption ranges 300mA (1.5W) - 700
 It all comes down to the GPU support, if you don't care about GPU and performance, you can use any 32 bit version:
 https://www.raspberrypi.com/software/operating-systems/
 
-For the experiments I will stick with the latest Raspbian Buster, because it's one of the last OS that supported the GPU of this model:
+For the experiments I will stick with the latest Raspbian Buster, because it's one of the last OS that supported the GPU of this model:  
 http://downloads.raspberrypi.com/raspios_oldstable_armhf/images/raspios_oldstable_armhf-2023-05-03/
 
 # Raspberry PI GPU
@@ -105,7 +105,7 @@ For PDF use:
 $ fbgs file.pdf
 ```
 
-Watch both toosl in action:  
+Watch both tools in action:  
 [![Watch the video](https://img.youtube.com/vi/yyO0KxJruYs/0.jpg)](https://www.youtube.com/watch?v=yyO0KxJruYs)
 [![Watch the video](https://img.youtube.com/vi/isw05usOtlc/0.jpg)](https://www.youtube.com/watch?v=isw05usOtlc)  
 
@@ -157,7 +157,7 @@ sudo x11vnc -rawfb console@640x480x16 -auth /dev/null -noxdamage -forever -share
 
 Now on any another device run the client, ex:
 ```bash
-vncviewer -SecurityTypes None <Raspberry Pi IP address>:0 -CompressLevel 0 -QualityLevel 0 -FullColor 0 -PreferredEncoding raw -AutoSelect=0
+vncviewer -SecurityTypes None <Raspberry IP address>:0 -CompressLevel 0 -QualityLevel 0 -FullColor 0 -PreferredEncoding raw -AutoSelect=0
 ```
 
 I tested a couple VNC clients, some of them will allow more options than the others, aiming reducing lag, TigerVNC was the winner so far, so try a couple yourself. Here's a video:  
