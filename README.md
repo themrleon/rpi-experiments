@@ -70,7 +70,7 @@ Here’s how it relates to key concepts:
 In essence, the framebuffer is the most basic way to control a display in Linux, making it critical for embedded and minimalist systems where performance and simplicity are paramount.  
 
 # Userland
-Userland was mentioned in the GPU section, so let's run the GPU demos and see what it's capable of:
+Userland was mentioned in the GPU section, let's run the demos and finally see the GPU in action:
 ```bash
 $ git clone https://github.com/raspberrypi/userland
 $ cd userland
@@ -83,6 +83,17 @@ In the `hello_pi` folder you will find GPU demos, run any `.bin` file from any o
 ./hello_triangle/hello_triangle.bin
 ```
 
+# Performance tips
+* Lower Screen Resolution: Set a lower framebuffer resolution in `config.txt`. This reduces the workload on the GPU and frees up RAM  
+* Overclocking: Safely overclock the CPU from 700MHz to 1GHz using the `config.txt` file. This provides a direct CPU speed boost  
+* Heatsink/Cooling: Essential if overclocking. A simple heatsink helps dissipate heat and prevents the system from throttling due to high temperatures  
+* Light drivers: Use things that have built-in drivers in kernel since they tend to be smaller, I have an USB Wifi device which driver eats a lot of RAM compared to another older USB wifi card model that has built-in driver support  
+* Fast SD Card: Use a Class 10 or UHS-I microSD card with high read/write speeds (beware of fake ones). The entire system runs from the SD card, so a slow card bottlenecks everything  
+* Reduce GPU RAM: In `config.txt`, lower gpu_mem (e.g., gpu_mem=16). This allocates more of the limited 512MB of total RAM to the system instead of the GPU, which is crucial for memory-heavy tasks unless you need high-resolution graphics  
+* Disable Unused Services: Stop background services you don't need (e.g., bluetooth, avahi-daemon). Use a tool like `raspi-config` or `systemctl disable` to free up CPU and RAM  
+* Use ZRAM (Swap Compression): Create a compressed swap area in RAM. This is much faster than using a slow SD card for traditional swap and helps prevent out-of-memory crashes  
+* Power Supply: Use a high-quality 5V/1.5A power adapter. Under-voltage causes throttling, slowdowns, and instability  
+* Optimize Software: Use efficient, compiled languages like C over interpreted ones like Python for CPU-intensive tasks
 
 # Running DOS applications
 
