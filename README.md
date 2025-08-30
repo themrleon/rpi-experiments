@@ -106,6 +106,9 @@ $ fbgs file.pdf
 ```
 Both tools are shipped with the OS already
 
+Here's a video of both in action:
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 ## Videos
 Using software renderer, which means CPU, which will be **very slow**:
 ```bash
@@ -123,7 +126,7 @@ omxplayer video.mp4
 > But still available from the last Raspbian Buster OS with `sudo apt install omxplayer`
 
 Here is a video showing the difference between both playing the same video, mplayer(CPU) Vs omxplayer(GPU):  
-<YT video>
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ## Userland GPU Demos
 Userland was mentioned in the GPU section, let's run the demos and finally see the GPU in action:
@@ -140,7 +143,7 @@ $ cd hello_triangle
 $ ./hello_triangle.bin
 ```
 Here's a video: 
-<YT video>
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ## VNC
 Yes, you can use VNC with console, you don't need a full desktop environment for this, "Why not just use a simple SSH connection?" the key difference is in the type of access:  
@@ -158,7 +161,7 @@ vncviewer -SecurityTypes None <Raspberry Pi IP address>:0 -CompressLevel 0 -Qual
 ```
 
 I tested a couple VNC clients, some of them will allow more options than the others, aiming reducing lag, TigerVNC was the winner so far, so try a couple yourself. Here's a video:  
-<YT video>
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 Notice how they are all mirroring each other, any input from one, will reflect on all the others. Doom is to showcase the lag on each device and graphics capabilities, keep in mind that is all being transmitted via Wifi, results may vary depending on your connection quality and speed. If you want less lag, use an ethernet cable connection instead.
 
