@@ -110,12 +110,12 @@ Watch both tools in action:
 [![Watch the video](https://img.youtube.com/vi/isw05usOtlc/0.jpg)](https://www.youtube.com/watch?v=isw05usOtlc)  
 
 ## Videos
-Using software renderer, which means CPU, which will be **very slow**:
+Using software renderer, which means CPU and **very slow**:
 ```bash
 mplayer video.mp4 -vo fbdev2 -vf scale=640:480
 ```
 
-Using hardware/GPU h264 decoder acceleration (make sure the video was h264 encoded):
+Using hardware/GPU h264 decoder acceleration:
 ```bash
 omxplayer video.mp4 
 ```
@@ -124,6 +124,7 @@ omxplayer video.mp4
 > Omxplayer is no longer available to install from latest OS repos and has been deprecated since 2020
 > https://github.com/popcornmix/omxplayer  
 > But still available from the last Raspbian Buster OS with `sudo apt install omxplayer`
+> They claim VLC replaces it, but I couldn't use VLC on terminal, much less with the rpi GPU
 
 Watch the difference between both playing the same h264 encoded 480p video, mplayer(CPU) Vs omxplayer(GPU):  
 [![Watch the video](https://img.youtube.com/vi/3zUy5Sg55xg/0.jpg)](https://www.youtube.com/watch?v=3zUy5Sg55xg)  
@@ -144,6 +145,8 @@ $ ./hello_triangle.bin
 ```
 Watch them in action:  
 [![Watch the video](https://img.youtube.com/vi/jPbkeuRi7ZE/0.jpg)](https://www.youtube.com/watch?v=jPbkeuRi7ZE)  
+
+# DOOM
 
 ## VNC
 Yes, you can use VNC with console, you don't need a full desktop environment for this, "Why not just use a simple SSH connection?" the key difference is in the type of access:  
@@ -167,6 +170,6 @@ Notice how they are all mirroring each other, any input from one, will reflect o
 
 # USB Camera
 
-# Running DOS applications
+# Running DOS
 
 # Using SPI with ST7789 Display
