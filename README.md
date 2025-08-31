@@ -147,11 +147,24 @@ Watch them in action:
 [![Watch the video](https://img.youtube.com/vi/jPbkeuRi7ZE/0.jpg)](https://www.youtube.com/watch?v=jPbkeuRi7ZE)  
 
 # DOOM
+To run DOOM you can use this framebuffer ready version:  
+```bash
+$ git clone https://github.com/maximevince/fbDOOM
+$ cd fbDOOM
+$ wget https://github.com/Akbar30Bill/DOOM_wads/raw/refs/heads/master/doom1.wad
+$ make SDL=1
+$ ./fbdoom -iwad doom1.wad
+```
+See it in action:  
+[![Watch the video](https://img.youtube.com/vi/T6gzGYftMPc/0.jpg)](https://www.youtube.com/watch?v=T6gzGYftMPc)  
+
+> [!TIP]
+> I am providing the static compiled binary too, so you don't need to compile, just download and run it!
 
 ## VNC
-Yes, you can use VNC with console, you don't need a full desktop environment for this, "Why not just use a simple SSH connection?" the key difference is in the type of access:  
-* An SSH connection provides a text-only terminal. It's perfect for command-line control but cannot display any graphics or applications that render to the screen  
-* A VNC server like x11vnc mirrors the entire visual display. This means you can remotely see everything that would appear on the physical monitor  
+You can use VNC with console only! a desktop environment is not needed. So "Why not just use a simple SSH connection?" the key difference is:  
+* SSH connection provides a text-only terminal. It's perfect for command-line control but cannot display any graphics or applications that render to the screen  
+* VNC server like x11vnc mirrors the entire visual display. This means you can remotely see everything that would appear on the physical monitor  
 
 Start the server on the raspberry:
 ```bash
@@ -164,9 +177,12 @@ vncviewer -SecurityTypes None <Raspberry IP address>:0 -CompressLevel 0 -Quality
 ```
 
 I tested a couple VNC clients, some of them will allow more options than the others, aiming reducing lag, TigerVNC was the winner so far, so try a couple yourself. Here's a video:  
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+[![Watch the video](https://img.youtube.com/vi/rV3fqgPKwvI/0.jpg)](https://www.youtube.com/watch?v=rV3fqgPKwvI)  
 
-Notice how they are all mirroring each other, any input from one, will reflect on all the others. Doom is to showcase the lag on each device and graphics capabilities, keep in mind that is all being transmitted via Wifi, results may vary depending on your connection quality and speed. If you want less lag, use an ethernet cable connection instead.
+Notice how they are all mirroring each other, any input from one, will reflect on all the others  
+
+> [!IMPORTANT]
+> Doom is to showcase the lag on each device and graphics capabilities, keep in mind that is all being transmitted via Wifi, results may vary depending on your connection quality and speed. If you want less lag, use an ethernet cable connection instead  
 
 # USB Camera
 
