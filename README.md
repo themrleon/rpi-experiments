@@ -10,9 +10,11 @@ A set of experiments revisiting the **Raspberry Pi Model B 512MB** in 2025 to se
 * Memory: 512MB RAM
 * Storage: SD card (full-size) for booting the operating system and storing data
 * Video: HDMI port and composite video (via RCA jack)
-* Audio: 3.5mm analog audio jack and audio over HDMI5.
+* Audio: 3.5mm analog audio jack and audio over HDMI
 * Networking: 10/100 Ethernet RJ45 port
 * GPIO: 26-pin GPIO header providing access to interfaces like UART, I2C, and SPI
+* CSI (camera) port: standard 15-pin, 1.0mm pitch, 16mm width   
+* DSI (display) port: standard 15-pin, 1.0mm pitch, 16mm width  
 * USB: 2 × USB 2.0
 
 Powered via a 5V microUSB connector. Power consumption ranges 300mA (1.5W) - 700mA (3.5W) (depending on connected peripherals and workload)
