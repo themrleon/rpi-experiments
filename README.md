@@ -26,7 +26,7 @@ https://www.raspberrypi.com/software/operating-systems/
 For the experiments I will stick with the latest Raspbian Buster, because it's one of the last OS that supported the GPU of this model:  
 http://downloads.raspberrypi.com/raspios_oldstable_armhf/images/raspios_oldstable_armhf-2023-05-03/
 
-# Raspberry PI GPU
+# Raspberry Pi GPU
 I couldn't put in better words than AI, so here it goes:
 
 🖥️ GPU Basics  
@@ -61,7 +61,7 @@ The Pi 1's GPU is capable for its time (released in 2012) but struggles with mod
 Techniques like overclocking or adjusting gpu_mem in config.txt can help allocate more RAM to the GPU, potentially improving graphics performance.
 In short, the Raspberry Pi 1 Model B's GPU is a capable but aging piece of hardware that relies on a mix of open and closed software components to deliver its graphics functionality. While it supports standards like OpenGL ES 2.0, its performance is limited by its hardware design and proprietary drivers.
 
-# What is Framebuffer?
+# What is framebuffer?
 The Linux framebuffer is a simple interface that provides direct access to the display. It is represented by the device file /dev/fb0.  
 Its core function is to act as a memory buffer (a RAM-based array of pixels) that holds the exact image being sent to the screen. The graphics hardware reads from this buffer continuously to refresh the display.  
 
@@ -131,7 +131,7 @@ omxplayer video.mp4
 Watch the difference between both playing the same h264 encoded 480p video, mplayer(CPU) Vs omxplayer(GPU):  
 [![Watch the video](https://img.youtube.com/vi/3zUy5Sg55xg/0.jpg)](https://www.youtube.com/watch?v=3zUy5Sg55xg)  
 
-## Userland GPU Demos
+## Userland GPU demos
 Userland was mentioned in the GPU section, let's run the demos and finally see the GPU in action:
 ```bash
 $ git clone https://github.com/raspberrypi/userland
@@ -154,7 +154,7 @@ To run DOOM you can use this framebuffer ready version:
 $ git clone https://github.com/maximevince/fbDOOM
 $ cd fbDOOM
 $ wget https://github.com/Akbar30Bill/DOOM_wads/raw/refs/heads/master/doom1.wad
-$ make SDL=1
+$ make NOSDL=1
 $ ./fbdoom -iwad doom1.wad
 ```
 See it in action:  
@@ -186,8 +186,8 @@ Notice how they are all mirroring each other, any input from one, will reflect o
 > [!IMPORTANT]
 > Doom is to showcase the lag on each device and graphics capabilities, keep in mind that is all being transmitted via Wifi, results may vary depending on your connection quality and speed. If you want less lag, use an ethernet cable connection instead  
 
-# USB Camera
+# USB camera
 
 # Running DOS
 
-# Using SPI with ST7789 Display
+# Using SPI with ST7789 display
