@@ -1,0 +1,28 @@
+diff --git a/gpu.cpp b/gpu.cpp
+index 2f94fd0..51ca3b5 100644
+--- a/gpu.cpp
++++ b/gpu.cpp
+@@ -431,7 +431,7 @@ void InitGPU()
+   scalingFactorHeight = (double)scaledHeight/relevantDisplayHeight;
+ 
+   displayXOffset = DISPLAY_COVERED_LEFT_SIDE + (DISPLAY_DRAWABLE_WIDTH - scaledWidth) / 2;
+-  displayYOffset = DISPLAY_COVERED_TOP_SIDE + (DISPLAY_DRAWABLE_HEIGHT - scaledHeight) / 2;
++  displayYOffset = 35 + DISPLAY_COVERED_TOP_SIDE + (DISPLAY_DRAWABLE_HEIGHT - scaledHeight) / 2;
+ 
+   excessPixelsLeft = ROUND_TO_NEAREST_INT(display_info.width * overscanLeft * scalingFactorWidth);
+   excessPixelsRight = ROUND_TO_NEAREST_INT(display_info.width * overscanRight * scalingFactorWidth);
+diff --git a/st7735r.h b/st7735r.h
+index 6875252..b8aab4b 100644
+--- a/st7735r.h
++++ b/st7735r.h
+@@ -16,8 +16,8 @@
+ #define DISPLAY_WRITE_PIXELS 0x2C
+ 
+ #if defined(ST7789) || defined(ST7789VW)
+-#define DISPLAY_NATIVE_WIDTH 240
+-#define DISPLAY_NATIVE_HEIGHT 240
++#define DISPLAY_NATIVE_WIDTH 170
++#define DISPLAY_NATIVE_HEIGHT 320
+ #elif defined(ST7735R)
+ #define DISPLAY_NATIVE_WIDTH 128
+ #define DISPLAY_NATIVE_HEIGHT 160

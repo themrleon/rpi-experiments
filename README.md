@@ -65,13 +65,10 @@ In short, the Raspberry Pi 1 Model B's GPU is a capable but aging piece of hardw
 
 # What is framebuffer?
 The Linux framebuffer is a simple interface that provides direct access to the display. It is represented by the device file /dev/fb0.  
-Its core function is to act as a memory buffer (a RAM-based array of pixels) that holds the exact image being sent to the screen. The graphics hardware reads from this buffer continuously to refresh the display.  
-
-Here’s how it relates to key concepts:  
+Its core function is to act as a memory buffer (a RAM-based array of pixels) that holds the exact image being sent to the screen. The graphics hardware reads from this buffer continuously to refresh the display:  
 * `/dev/fb0`: This is the device file. Writing pixel data to this file changes the image on the screen immediately.  
 * `Console Only / Headless`: On systems without a graphical desktop (like a text-only terminal or a headless device with a display attached), the framebuffer is what renders the text console and allows basic graphics to be drawn.  
 * `Raspberry Pi & Embedded Systems`: It is essential here because it is lightweight and doesn't require a complex graphical environment. It is the standard way to output graphics or video efficiently on low-power devices, making it ideal for kiosks, embedded displays, or media players.  
-In essence, the framebuffer is the most basic way to control a display in Linux, making it critical for embedded and minimalist systems where performance and simplicity are paramount.  
 
 # Performance tips
 ## Hardware & System Tweaks  
@@ -158,7 +155,7 @@ Watch them in action:
 [![Watch the video](https://img.youtube.com/vi/jPbkeuRi7ZE/0.jpg)](https://www.youtube.com/watch?v=jPbkeuRi7ZE)  
 
 # DOOM
-To run DOOM you can use this framebuffer ready version:  
+To run DOOM use this framebuffer ready version:  
 ```bash
 $ git clone https://github.com/maximevince/fbDOOM
 $ cd fbDOOM
@@ -170,9 +167,9 @@ See it in action:
 [![Watch the video](https://img.youtube.com/vi/T6gzGYftMPc/0.jpg)](https://www.youtube.com/watch?v=T6gzGYftMPc)  
 
 > [!TIP]
-> I am providing the static compiled binary too, so you don't need to compile, just download and run it!
+> Get fbDOOM already compiled binary from [here](https://github.com/themrleon/fbDOOM/releases/tag/1.0)
 
-These are also available:
+These other versions are also available:
 ```bash
 sudo apt install prboom-plus
 sudo apt install chocolate-doom
@@ -239,15 +236,57 @@ Here is the ffmpeg CPU usage and FPS based on different resolutions tested:
 | 320x240 | ~15 | 15 |
 
 > [!WARNING]
-> Always run VLC **before** ffmpeg, otherwise VLC won't work! I noticed this on both PC and Phone versions  
-> VLC has a default 1s caching delay, you can set it to zero here:  
+> Always run VLC **before** ffmpeg, otherwise VLC won't work! I noticed this on both PC and Phone versions. Also it has a one second caching delay, set it to zero here:  
 > <img width="450" height="405" alt="image" src="https://github.com/user-attachments/assets/dfe4732c-0562-4838-88c5-234fffd1bb0c" />  
 
-Despite VLC chaching set to zero, there still 1-2s video delay (I am on wifi) and it doesn't seem to transmit audio
+Despite setting to zero, there still 1-2s video delay (since I am on wifi) and it doesn't seem to transmit audio
 
-# CSI camera
-Since I haven't any, I can't test, but this is the best option for cameras since they rely on a dedicated bus and GPU for processing:
+# CSI camera and OV5647 sensor
+<img width="450" height="405" alt="image" src="https://github.com/user-attachments/assets/5600d69a-3ec5-49ea-91b4-cf0524e5f790" />  
+
 > Raspivid is a command-line tool specifically designed for Raspberry Pi devices to capture video using the official camera modules (connected via the CSI interface). It is part of the legacy camera software stack (deprecated in newer Raspberry Pi OS versions like "Bullseye" and later) and leverages the VideoCore IV GPU for hardware-accelerated H.264 encoding, ensuring efficient video processing with minimal CPU load
+
+This is much better than trying an USB camera, also there are two dedicated tools, one for picture and another for video.
+> [!WARNING]
+> Altought OV5647 is a 5MP sensor (2592x1944 pixels), rpi H.264 hardware encoder only supports up to 1920x1080 30 FPS video
+
+## Camera connection steps
+1. Locate the CSI Port on your Pi 1 Model B - it's between the Ethernet and HDMI ports
+2. Lift the plastic clip on the CSI connector
+3. Insert the ribbon cable with the blue side facing the Ethernet port
+4. Push the clip back down to secure the cable
+5. Enable in the `sudo raspi-config`, Interface Options → Camera → Yes
+6. Reboot
+7. Run `vcgencmd get_camera` and check for `supported=1 detected=1`
+
+If there is no other camera connected then it will likely be at `/dev/video0`:
+```bash
+$ dmesg | grep video0
+[   19.385771] bcm2835-v4l2-0: V4L2 device registered as video0 - stills mode > 1280x720
+```
+
+The tools:
+* raspistill: Used to take pictures, supports up to 5MP
+* raspivid: Used to record videos, supports up to 1080p 30 FPS
+  
+Handy commands:  
+* Take 5MP picture waiting 5s: `raspistill -o image.jpg -w 2592 -h 1944`  
+* Take 5MP picture without wait: `raspistill -o image.jpg -w 2592 -h 1944 -t 1`
+* Record raw h264 10s video: `raspivid -o video.h264 -w 1920 -h 1080 -t 10000 -fps 30`
+* Convert raw h264 to mp4: `ffmpeg -r 30 -i video.h264 -c copy video.mp4`
+* Stream video: `raspivid -t 0 -w 1920 -h 1080 -fps 30 -b 2000000 -o - | cvlc -vvv stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8080}' :demux=h264` (watch from VLC with `http://<rpi IP>:8080`)
+
+> [!IMPORTANT]
+> By default `raspistill` waits 5s before taking the picture, but if you don't wait, depending on the light conditions, the image may be very dark!
+
+> [!IMPORTANT]
+> Videos recorded with `raspivid` are raw h264 and need to be converted to mp4 before playing, that can be done with tools like `ffmpeg` and `handbrake`  
+
+> [!TIP]
+> Explore `raspivid --help`, it supports lots of features like camera parameters, filters, rotation and so on
+
+> [!TIP]
+> It's possible to watch the camera feed in the framebuffer console too, with `raspivid -f` or `ffplay /dev/video0`
 
 # Audio
 You can use `alsamixer` to control the volume of each device (press F6 for more):  
@@ -342,5 +381,48 @@ Unlike the latest pi models, this one haven't any, so you have to use one of tho
 https://github.com/themrleon/realtek-8851bu-driver
 
 # SPI interface
-To interact with the SPI first you have to enable it via the `sudo raspi-config` tool, then you can use any Python for quick test, or C libs for more performant tasks, like this one I made to act as an external tiny display:  
+To interact with the SPI first you have to enable it via the `sudo raspi-config` tool, then you can use any Python for quick test, or C libs for more performant tasks
+
+## SPI displays
+It's possible to use SPI displays instead of RCA/HDMI/DSI ones, however SPI will require CPU usage, given the already limited pi single-core CPU, that can be a heavy toll on performance. Hopefully there is this project which from my tests seems to be the best option as long as you have an **ILI9341** based display:  
+https://github.com/juj/fbcp-ili9341
+
+### ST7789 controller
+<img width="342" height="379" alt="image" src="https://github.com/user-attachments/assets/48caa154-cd16-4b89-8f47-a2db53e7ddba" />
+
+The **fbcp-ili9341** lib seems to support other display controllers like the ST7789, but from my tests that didn't work out, I only got it working after patching the lib (but still an issue when it clears the screen due to the 35px offset that my ST7789 display model has), but the high CPU usage and complexity to get it working wasn't worth it, so I made my own ST7789 display solution:  
 https://github.com/themrleon/rpi-st7789-console-display
+
+> [!IMPORTANT]
+> Note that both libs used similar amount of CPU when running DOOM, however when idle **fbcp-ili9341** used much less  
+
+> [!IMPORTANT]
+> I am providing the patch file in case you wanna try a ST7789 display with **fbcp-ili9341** yourself  
+> Compile with (no DMA since that didn't work for me): `cmake .. -DST7789=ON -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=25 -DSPI_BUS_CLOCK_DIVISOR=30 -DSTATISTICS=0`
+
+### ILI9341 controller
+<img width="417" height="331" alt="image" src="https://github.com/user-attachments/assets/e250b543-f464-481a-8d17-ee7d063e471c" />
+
+This is by far the best choice, the CPU usage is low since the lib leverage DMA channels:
+
+| CPU Usage % | Doing What ? | Notes |
+| :------------: | :---------------: | :---------------: |
+| 4-7 | Idle | console idle
+| 14-18 | DOOM | fbdoom
+| 10-16 | video playback | omxplayer (GPU h.264 decode)
+
+The process to compile the lib is:
+1. Go to lib folder
+2. `mkdir build`
+3. `cd build` 
+4. `cmake .. -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=25 -DSPI_BUS_CLOCK_DIVISOR=16 -DSTATISTICS=0 -DUSE_DMA_TRANSFERS=ON -DDMA_TX_CHANNEL=5 -DDMA_RX_CHANNEL=4`
+5. Run with sudo: `sudo ./fbcp-ili9341`
+
+> [!WARNING]
+> Make sure to adapt the PIN numbers to your wiring, the example above is following [this](https://github.com/themrleon/rpi-st7789-console-display?tab=readme-ov-file#wiring)
+
+> [!IMPORTANT]
+> The default DMA channels the lib uses caused problems, so I changed to 4 and 5 and had no more issues with it
+
+> [!TIP]
+> To run the lib whenever pi boots, add an entry to `/etc/rc.local`, ex: `<lib path>/fbcp-ili9341/build/fbcp-ili9341 &`
