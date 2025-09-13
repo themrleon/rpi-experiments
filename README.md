@@ -65,13 +65,10 @@ In short, the Raspberry Pi 1 Model B's GPU is a capable but aging piece of hardw
 
 # What is framebuffer?
 The Linux framebuffer is a simple interface that provides direct access to the display. It is represented by the device file /dev/fb0.  
-Its core function is to act as a memory buffer (a RAM-based array of pixels) that holds the exact image being sent to the screen. The graphics hardware reads from this buffer continuously to refresh the display.  
-
-Here’s how it relates to key concepts:  
+Its core function is to act as a memory buffer (a RAM-based array of pixels) that holds the exact image being sent to the screen. The graphics hardware reads from this buffer continuously to refresh the display:  
 * `/dev/fb0`: This is the device file. Writing pixel data to this file changes the image on the screen immediately.  
 * `Console Only / Headless`: On systems without a graphical desktop (like a text-only terminal or a headless device with a display attached), the framebuffer is what renders the text console and allows basic graphics to be drawn.  
 * `Raspberry Pi & Embedded Systems`: It is essential here because it is lightweight and doesn't require a complex graphical environment. It is the standard way to output graphics or video efficiently on low-power devices, making it ideal for kiosks, embedded displays, or media players.  
-In essence, the framebuffer is the most basic way to control a display in Linux, making it critical for embedded and minimalist systems where performance and simplicity are paramount.  
 
 # Performance tips
 ## Hardware & System Tweaks  
