@@ -155,7 +155,7 @@ Watch them in action:
 [![Watch the video](https://img.youtube.com/vi/jPbkeuRi7ZE/0.jpg)](https://www.youtube.com/watch?v=jPbkeuRi7ZE)  
 
 # DOOM
-To run DOOM you can use this framebuffer ready version:  
+To run DOOM use this framebuffer ready version:  
 ```bash
 $ git clone https://github.com/maximevince/fbDOOM
 $ cd fbDOOM
@@ -167,9 +167,9 @@ See it in action:
 [![Watch the video](https://img.youtube.com/vi/T6gzGYftMPc/0.jpg)](https://www.youtube.com/watch?v=T6gzGYftMPc)  
 
 > [!TIP]
-> You can get fbDOOM already compiled dbinary from [here](https://github.com/themrleon/fbDOOM/releases/tag/1.0)
+> Get fbDOOM already compiled binary from [here](https://github.com/themrleon/fbDOOM/releases/tag/1.0)
 
-These are also available:
+These other versions are also available:
 ```bash
 sudo apt install prboom-plus
 sudo apt install chocolate-doom
@@ -236,18 +236,17 @@ Here is the ffmpeg CPU usage and FPS based on different resolutions tested:
 | 320x240 | ~15 | 15 |
 
 > [!WARNING]
-> Always run VLC **before** ffmpeg, otherwise VLC won't work! I noticed this on both PC and Phone versions  
-> VLC has a default 1s caching delay, you can set it to zero here:  
+> Always run VLC **before** ffmpeg, otherwise VLC won't work! I noticed this on both PC and Phone versions. Also it has a one second caching delay, set it to zero here:  
 > <img width="450" height="405" alt="image" src="https://github.com/user-attachments/assets/dfe4732c-0562-4838-88c5-234fffd1bb0c" />  
 
-Despite VLC chaching set to zero, there still 1-2s video delay (I am on wifi) and it doesn't seem to transmit audio
+Despite setting to zero, there still 1-2s video delay (since I am on wifi) and it doesn't seem to transmit audio
 
 # CSI camera and OV5647 sensor
 <img width="450" height="405" alt="image" src="https://github.com/user-attachments/assets/5600d69a-3ec5-49ea-91b4-cf0524e5f790" />  
 
 > Raspivid is a command-line tool specifically designed for Raspberry Pi devices to capture video using the official camera modules (connected via the CSI interface). It is part of the legacy camera software stack (deprecated in newer Raspberry Pi OS versions like "Bullseye" and later) and leverages the VideoCore IV GPU for hardware-accelerated H.264 encoding, ensuring efficient video processing with minimal CPU load
 
-This is much better than trying an USB camera, also there are two dedicated tools: one for pictures and other for videos.
+This is much better than trying an USB camera, also there are two dedicated tools, one for picture and another for video.
 > [!WARNING]
 > Altought OV5647 is a 5MP sensor (2592x1944 pixels), rpi H.264 hardware encoder only supports up to 1920x1080 30 FPS video
 
@@ -267,8 +266,8 @@ $ dmesg | grep video0
 ```
 
 The tools:
-* raspistill: Used to take pictures, supports 5MP
-* raspivid: Used to record videos, supports 1080p 30 FPS
+* raspistill: Used to take pictures, supports up to 5MP
+* raspivid: Used to record videos, supports up to 1080p 30 FPS
   
 Handy commands:  
 * Take 5MP picture waiting 5s: `raspistill -o image.jpg -w 2592 -h 1944`  
