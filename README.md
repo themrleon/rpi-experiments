@@ -278,9 +278,13 @@ Handy commands:
 * Stream video: `raspivid -t 0 -w 1920 -h 1080 -fps 30 -b 2000000 -o - | cvlc -vvv stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8080}' :demux=h264` (watch from VLC with `http://<rpi IP>:8080`)
 
 > [!IMPORTANT]
-> By default `raspistill` waits 5s before taking the picture, if you don't wait, depending on the light conditions the image may be very dark  
-> Videos recorded with `raspivid` are raw h264 and need to be converted to mp4 before playing, that can be done with `ffmpeg` or any similar tool like `handbrake`  
-> Explore the `raspivid --help` options, it supports camera filters, image rotation, parameters and many other things
+> By default `raspistill` waits 5s before taking the picture, but if you don't wait, depending on the light conditions, the image may be very dark!
+
+> [!IMPORTANT]
+> Videos recorded with `raspivid` are raw h264 and need to be converted to mp4 before playing, that can be done with tools like `ffmpeg` and `handbrake`  
+
+> [!TIP]
+> Explore `raspivid --help`, it supports lots of features like camera parameters, filters, rotation and so on
 
 # Audio
 You can use `alsamixer` to control the volume of each device (press F6 for more):  
