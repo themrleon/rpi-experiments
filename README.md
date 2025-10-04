@@ -285,6 +285,9 @@ Handy commands:
 > [!TIP]
 > Explore `raspivid --help`, it supports lots of features like camera parameters, filters, rotation and so on
 
+> [!TIP]
+> It's possible to watch the camera feed in the framebuffer console too, with `raspivid -f` or `ffplay /dev/video0`
+
 # Audio
 You can use `alsamixer` to control the volume of each device (press F6 for more):  
 <img width="600" height="300" alt="image" src="https://github.com/user-attachments/assets/4513b95c-21a3-4c05-a03e-c5da6c5721d4" />  
