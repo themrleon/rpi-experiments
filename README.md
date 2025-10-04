@@ -167,7 +167,7 @@ See it in action:
 [![Watch the video](https://img.youtube.com/vi/T6gzGYftMPc/0.jpg)](https://www.youtube.com/watch?v=T6gzGYftMPc)  
 
 > [!TIP]
-> I am providing the static compiled binary too, so you don't need to compile, just download and run it!
+> You can get fbDOOM already compiled dbinary from [here](https://github.com/themrleon/fbDOOM/releases/tag/1.0)
 
 These are also available:
 ```bash
