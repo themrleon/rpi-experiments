@@ -242,9 +242,45 @@ Here is the ffmpeg CPU usage and FPS based on different resolutions tested:
 
 Despite VLC chaching set to zero, there still 1-2s video delay (I am on wifi) and it doesn't seem to transmit audio
 
-# CSI camera
-Since I haven't any, I can't test, but this is the best option for cameras since they rely on a dedicated bus and GPU for processing:
+# CSI camera and OV5647 sensor
+<img width="450" height="405" alt="image" src="https://github.com/user-attachments/assets/5600d69a-3ec5-49ea-91b4-cf0524e5f790" />  
+
 > Raspivid is a command-line tool specifically designed for Raspberry Pi devices to capture video using the official camera modules (connected via the CSI interface). It is part of the legacy camera software stack (deprecated in newer Raspberry Pi OS versions like "Bullseye" and later) and leverages the VideoCore IV GPU for hardware-accelerated H.264 encoding, ensuring efficient video processing with minimal CPU load
+
+This is much better than trying an USB camera, also there are two dedicated tools: one for pictures and other for videos.
+> [!WARNING]
+> Altought OV5647 is a 5MP sensor (2592x1944 pixels), rpi H.264 hardware encoder only supports up to 1920x1080 30 FPS video
+
+## Camera connection steps
+1. Locate the CSI Port on your Pi 1 Model B - it's between the Ethernet and HDMI ports
+2. Lift the plastic clip on the CSI connector
+3. Insert the ribbon cable with the blue side facing the Ethernet port
+4. Push the clip back down to secure the cable
+5. Enable in the `sudo raspi-config`, Interface Options → Camera → Yes
+6. Reboot
+7. Run `vcgencmd get_camera` and check for `supported=1 detected=1`
+
+If there is no other camera connected then it will likely be at `/dev/video0`:
+```bash
+$ dmesg | grep video0
+[   19.385771] bcm2835-v4l2-0: V4L2 device registered as video0 - stills mode > 1280x720
+```
+
+The tools:
+* raspistill: Used to take pictures, supports 5MP
+* raspivid: Used to record videos, supports 1080p 30 FPS
+  
+Handy commands:  
+* Take 5MP picture waiting 5s: `raspistill -o image.jpg -w 2592 -h 1944`  
+* Take 5MP picture without wait: `raspistill -o image.jpg -w 2592 -h 1944 -t 1`
+* Record raw h264 10s video: `raspivid -o video.h264 -w 1920 -h 1080 -t 10000 -fps 30`
+* Convert raw h264 to mp4: `ffmpeg -r 30 -i video.h264 -c copy video.mp4`
+* Stream video: `raspivid -t 0 -w 1920 -h 1080 -fps 30 -b 2000000 -o - | cvlc -vvv stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8080}' :demux=h264` (watch from VLC with `http://<rpi IP>:8080`)
+
+> [!IMPORTANT]
+> By default `raspistill` waits 5s before taking the picture, if you don't wait, depending on the light conditions the image may be very dark  
+> Videos recorded with `raspivid` are raw h264 and need to be converted to mp4 before playing, that can be done with `ffmpeg` or any similar tool like `handbrake`  
+> Explore the `raspivid --help` options, it supports camera filters, image rotation, parameters and many other things
 
 # Audio
 You can use `alsamixer` to control the volume of each device (press F6 for more):  
