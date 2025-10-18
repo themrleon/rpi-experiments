@@ -397,7 +397,7 @@ https://github.com/themrleon/rpi-st7789-console-display
 > Note that both libs used similar amount of CPU when running DOOM, however when idle **fbcp-ili9341** used much less  
 
 > [!IMPORTANT]
-> I am providing the patch file in case you wanna try a ST7789 display with **fbcp-ili9341** yourself  
+> I am providing the patch file in case you wanna try a ST7789 display with **fbcp-ili9341** yourself (from lib folder `git apply st7789_fbcp-ili9341.patch`)  
 > Compile with (no DMA since that didn't work for me): `cmake .. -DST7789=ON -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=25 -DSPI_BUS_CLOCK_DIVISOR=30 -DSTATISTICS=0`
 
 ### ILI9341 controller
@@ -405,7 +405,7 @@ https://github.com/themrleon/rpi-st7789-console-display
 
 This is by far the best choice, the CPU usage is low since the lib leverage DMA channels:
 
-| CPU Usage % | Doing What ? | Notes |
+| Lib CPU Usage % | Doing What ? | Notes |
 | :------------: | :---------------: | :---------------: |
 | 4-7 | Idle | console idle
 | 14-18 | DOOM | fbdoom
