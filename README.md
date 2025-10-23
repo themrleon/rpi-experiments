@@ -292,7 +292,7 @@ Handy commands:
 You can use `alsamixer` to control the volume of each device (press F6 for more):  
 <img width="600" height="300" alt="image" src="https://github.com/user-attachments/assets/4513b95c-21a3-4c05-a03e-c5da6c5721d4" />  
 
-To have sound on the 3.5mm audio jack instead of HDMI, you can use the `sudo raspi-config` tool, System Options -> Audio:  
+To have sound on the 3.5mm audio jack instead of HDMI, use `sudo raspi-config` and go to 'System Options' -> 'Audio':  
 <img width="635" height="416" alt="image" src="https://github.com/user-attachments/assets/86c7db00-2218-4dd1-a0c2-31de26578cd3" />
 
 The same tools from videos can play music too, here is how each performed with the same MP3 file (which had an album cover too):
@@ -306,6 +306,9 @@ The same tools from videos can play music too, here is how each performed with t
 | `mpg123 file.mp3` | 7-9 | No |
 
 `mpg123` was the winner since it's only for audio files
+
+> [!WARNING]
+> Unfortunatelly using the 3.5mm audio jack you'll be able to hear noises, specially when CPU is doing something, but even when idle, the audio signal is grabbing noise from the whole board, that seems to be a known issue and unfortunatelly I couldn'd find a solution, also tried some capacitors, but nothing solved. Some places say to try adding `disable_audio_dither=1` and `audio_pwm_mode=2` to `/boot/config.txt`, but that didn't work either. So for audio consider using via **HDMI** or **bluetooth**, I tried via **USB sound card** but couldn't get to work in **stereo** mode, only in **mono**, at least the noise was 95% gone then.
 
 # Emulation and Retropie
 The best choice for emulation is using Retropie, it contains everything pre-compiled already (on their servers) and you download just what you want. Retropie is not only for Raspberry Pi, check their website for more details. It contains some tools, game ports and emulators of video game and computers:  
@@ -405,7 +408,7 @@ https://github.com/themrleon/rpi-st7789-console-display
 
 This is by far the best choice, the CPU usage is low since the lib leverage DMA channels:
 
-| Lib CPU Usage % | Doing What ? | Notes |
+| Tool CPU Usage % | Doing What ? | Notes |
 | :------------: | :---------------: | :---------------: |
 | 4-7 | Idle | console idle
 | 14-18 | DOOM | fbdoom
