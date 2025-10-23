@@ -308,7 +308,14 @@ The same tools from videos can play music too, here is how each performed with t
 `mpg123` was the winner since it's only for audio files
 
 > [!WARNING]
-> Unfortunatelly using the 3.5mm audio jack you'll be able to hear noises, specially when CPU is doing something, but even when idle, the audio signal is grabbing noise from the whole board, that seems to be a known issue and unfortunatelly I couldn'd find a solution, also tried some capacitors, but nothing solved. Some places say to try adding `disable_audio_dither=1` and `audio_pwm_mode=2` to `/boot/config.txt`, but that didn't work either. So for audio consider using via **HDMI** or **bluetooth**, I tried via **USB sound card** but couldn't get to work in **stereo** mode, only in **mono**, at least the noise was 95% gone then.
+> Unfortunatelly using the 3.5mm audio jack you'll be able to hear noises, specially when CPU is doing something, but even when idle the audio signal is noisy, that seems to be a known issue and unfortunatelly I couldn'd find a solution, also tried some capacitors, but nothing solved. Some places say to try adding `disable_audio_dither=1` and `audio_pwm_mode=2` to `/boot/config.txt`, but that didn't work either.  
+> So consider using via **HDMI** or **bluetooth**, I tried via **USB sound card** but couldn't get to work in **stereo** mode, only in **mono**, at least the noise was 95% gone then. And despite the noise with the built-in 3.5mm audio jack, at least it works in stereo mode. In short:
+> | Audio source | Noise | Channels |
+> | :------------: |:---------------:| :-----:|
+> | Built-in 3.5mm | a lot! | 2ch / stereo |
+> | HDMI out | zero | 2ch / stereo |
+> | USB sound card | minimal | 1ch / mono |
+> | Bluetooth | zero | 2ch / stereo |
 
 # Emulation and Retropie
 The best choice for emulation is using Retropie, it contains everything pre-compiled already (on their servers) and you download just what you want. Retropie is not only for Raspberry Pi, check their website for more details. It contains some tools, game ports and emulators of video game and computers:  
