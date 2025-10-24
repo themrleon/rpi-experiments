@@ -308,14 +308,18 @@ The same tools from videos can play music too, here is how each performed with t
 `mpg123` was the winner since it's only for audio files
 
 > [!WARNING]
-> Unfortunatelly using the 3.5mm audio jack you'll be able to hear noises, specially when CPU is doing something, but even when idle the audio signal is noisy, that seems to be a known issue and unfortunatelly I couldn'd find a solution, also tried some capacitors, but nothing solved. Some places say to try adding `disable_audio_dither=1` and `audio_pwm_mode=2` to `/boot/config.txt`, but that didn't work either.  
-> So consider using via **HDMI** or **bluetooth**, I tried via **USB sound card** but couldn't get to work in **stereo** mode, only in **mono**, at least the noise was 95% gone then. And despite the noise with the built-in 3.5mm audio jack, at least it works in stereo mode. In short:
-> | Audio source | Noise | Channels |
-> | :------------: |:---------------:| :-----:|
-> | Built-in 3.5mm | a lot! | 2ch / stereo |
-> | HDMI out | zero | 2ch / stereo |
-> | USB sound card | minimal | 1ch / mono |
-> | Bluetooth | zero | 2ch / stereo |
+> Unfortunatelly using the 3.5mm audio jack you'll be able to hear noises, specially when CPU is doing something, but even when idle the audio signal is noisy, that seems to be a known issue and the only solution I found was to **power pi from an USB power bank** or battery, powering from wall adaptor creates the noise, also tried putting different capacitors, and recommendations like adding `disable_audio_dither=1` and `audio_pwm_mode=2` to `/boot/config.txt`, but that didn't help either.  
+> So for wall adapter consider using via **HDMI** or **bluetooth**, or try a very high quality adapter and cable, I also tried via **USB sound card** but then couldn't get to work in **stereo** mode, only in **mono**, at least the noise was like 95% gone. Despite the noise with the built-in 3.5mm audio jack, at least it works in stereo mode:
+> | Audio source | Noise | Channels | Pi powered from
+> | :------------: |:---------------:| :-----:| :-----:|
+> | Built-in 3.5mm | a lot! | 2ch / stereo | AC/DC 5v adaptor |
+> | Built-in 3.5mm | zero | 2ch / stereo | USB power bank |
+> | HDMI out | zero | 2ch / stereo | AC/DC 5v adaptor |
+> | HDMI out | zero | 2ch / stereo | USB power bank |
+> | USB sound card | minimal | 1ch / mono | AC/DC 5v adaptor |
+> | USB sound card | zero | 1ch / mono | USB power bank |
+> | Bluetooth | zero | 2ch / stereo | AC/DC 5v adaptor |
+> | Bluetooth | zero | 2ch / stereo | USB power bank |
 
 # Emulation and Retropie
 The best choice for emulation is using Retropie, it contains everything pre-compiled already (on their servers) and you download just what you want. Retropie is not only for Raspberry Pi, check their website for more details. It contains some tools, game ports and emulators of video game and computers:  
@@ -394,26 +398,26 @@ https://github.com/themrleon/realtek-8851bu-driver
 To interact with the SPI first you have to enable it via the `sudo raspi-config` tool, then you can use any Python for quick test, or C libs for more performant tasks
 
 ## SPI displays
-It's possible to use SPI displays instead of RCA/HDMI/DSI ones, however SPI will require CPU usage, given the already limited pi single-core CPU, that can be a heavy toll on performance. Hopefully there is this project which from my tests seems to be the best option as long as you have an **ILI9341** based display:  
+It's possible to use SPI displays instead of RCA/HDMI/DSI ones, however SPI will require CPU usage, given the already limited pi single-core CPU, that can be a heavy toll on performance. Hopefully there is this tool which from my tests seems to be the best option as long as you have an **ILI9341** based display:  
 https://github.com/juj/fbcp-ili9341
 
 ### ST7789 controller
 <img width="342" height="379" alt="image" src="https://github.com/user-attachments/assets/48caa154-cd16-4b89-8f47-a2db53e7ddba" />
 
-The **fbcp-ili9341** lib seems to support other display controllers like the ST7789, but from my tests that didn't work out, I only got it working after patching the lib (but still an issue when it clears the screen due to the 35px offset that my ST7789 display model has), but the high CPU usage and complexity to get it working wasn't worth it, so I made my own ST7789 display solution:  
+The **fbcp-ili9341** tool seems to support other display controllers like the ST7789, but from my tests that didn't work out of the box, only after patching the lib (but still an issue when it clears the screen due to the 35px offset that my ST7789 model has), and given the high CPU usage and complexity to get it working wasn't worth it, so I made my own ST7789 display solution:  
 https://github.com/themrleon/rpi-st7789-console-display
 
 > [!IMPORTANT]
-> Note that both libs used similar amount of CPU when running DOOM, however when idle **fbcp-ili9341** used much less  
+> Note that both tools used similar amount of CPU when running DOOM, however when idle **fbcp-ili9341** uses less  
 
 > [!IMPORTANT]
-> I am providing the patch file in case you wanna try a ST7789 display with **fbcp-ili9341** yourself (from lib folder `git apply st7789_fbcp-ili9341.patch`)  
-> Compile with (no DMA since that didn't work for me): `cmake .. -DST7789=ON -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=25 -DSPI_BUS_CLOCK_DIVISOR=30 -DSTATISTICS=0`
+> I am providing the patch file in case you wanna try a ST7789 display with **fbcp-ili9341** yourself (`git apply st7789_fbcp-ili9341.patch`)  
+> Compile with (no DMA since that doesn't seem to work with ST7789): `cmake .. -DST7789=ON -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=25 -DSPI_BUS_CLOCK_DIVISOR=30 -DSTATISTICS=0`
 
 ### ILI9341 controller
 <img width="417" height="331" alt="image" src="https://github.com/user-attachments/assets/e250b543-f464-481a-8d17-ee7d063e471c" />
 
-This is by far the best choice, the CPU usage is low since the lib leverage DMA channels:
+This is by far the best model choice, the CPU usage is low compared to any other solutions found:
 
 | Tool CPU Usage % | Doing What ? | Notes |
 | :------------: | :---------------: | :---------------: |
@@ -421,18 +425,17 @@ This is by far the best choice, the CPU usage is low since the lib leverage DMA 
 | 14-18 | DOOM | fbdoom
 | 10-16 | video playback | omxplayer (GPU h.264 decode)
 
-The process to compile the lib is:
-1. Go to lib folder
-2. `mkdir build`
-3. `cd build` 
-4. `cmake .. -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=25 -DSPI_BUS_CLOCK_DIVISOR=16 -DSTATISTICS=0 -DUSE_DMA_TRANSFERS=ON -DDMA_TX_CHANNEL=5 -DDMA_RX_CHANNEL=4`
-5. Run with sudo: `sudo ./fbcp-ili9341`
+The process to compile the tool is, from the `fbcp-ili9341` folder:
+1. `mkdir build`
+2. `cd build` 
+3. `cmake .. -DILI9341=ON -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=25 -DSPI_BUS_CLOCK_DIVISOR=16 -DSTATISTICS=0 -DUSE_DMA_TRANSFERS=ON -DDMA_TX_CHANNEL=5 -DDMA_RX_CHANNEL=4`
+4. Run with sudo: `sudo ./fbcp-ili9341`
 
 > [!WARNING]
 > Make sure to adapt the PIN numbers to your wiring, the example above is following [this](https://github.com/themrleon/rpi-st7789-console-display?tab=readme-ov-file#wiring)
 
 > [!IMPORTANT]
-> The default DMA channels the lib uses caused problems, so I changed to 4 and 5 and had no more issues with it
+> The default DMA channels used by the tool caused problems to me, so I changed to 4 and 5 and that solved
 
 > [!TIP]
-> To run the lib whenever pi boots, add an entry to `/etc/rc.local`, ex: `<lib path>/fbcp-ili9341/build/fbcp-ili9341 &`
+> To run the tool whenever pi boots, add an entry to `/etc/rc.local`, ex: `<tool path>/fbcp-ili9341/build/fbcp-ili9341 &`
