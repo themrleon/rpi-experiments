@@ -412,7 +412,7 @@ https://github.com/themrleon/rpi-st7789-console-display
 
 > [!IMPORTANT]
 > I am providing the patch file in case you wanna try a ST7789 display with **fbcp-ili9341** yourself (`git apply st7789_fbcp-ili9341.patch`)  
-> Compile with (no DMA since that doesn't seem to work with ST7789): `cmake .. -DST7789=ON -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=25 -DSPI_BUS_CLOCK_DIVISOR=30 -DSTATISTICS=0`
+> Compile with (no DMA since that doesn't seem to work with ST7789): `cmake .. -DST7789=ON -DGPIO_TFT_DATA_CONTROL=24 -DGPIO_TFT_RESET_PIN=25 -DSPI_BUS_CLOCK_DIVISOR=16 -DSTATISTICS=0 -DUSE_DMA_TRANSFERS=OFF -DDISPLAY_ROTATE_180_DEGREES=ON`
 
 ### ILI9341 controller
 <img width="417" height="331" alt="image" src="https://github.com/user-attachments/assets/e250b543-f464-481a-8d17-ee7d063e471c" />
