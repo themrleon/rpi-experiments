@@ -305,7 +305,10 @@ The same tools from videos can play music too, here is how each performed with t
 | `omxplayer file.mp3` | ~10 | No |
 | `mpg123 file.mp3` | 7-9 | No |
 
-`mpg123` was the winner since it's only for audio files
+`mpg123` was the winner since it's only for audio files.  
+
+Check [this](https://github.com/themrleon/tui-mp3-player) personal project for an UI for `mpg123`:  
+<img width="595" height="463" alt="image" src="https://github.com/user-attachments/assets/b8a2ccfc-34a4-4c20-b235-be0bb7d16c11" />
 
 > [!WARNING]
 > Unfortunatelly using the 3.5mm audio jack you'll be able to hear noises, specially when CPU is doing something, but even when idle the audio signal is noisy, that seems to be a known issue and the only solution I found was to **power pi from an USB power bank** or battery, powering from wall adaptor creates the noise, also tried putting different capacitors, and recommendations like adding `disable_audio_dither=1` and `audio_pwm_mode=2` to `/boot/config.txt`, but that didn't help either.  
