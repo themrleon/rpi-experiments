@@ -308,7 +308,7 @@ The same tools from videos can play music too, here is how each performed with t
 `mpg123` was the winner since it's only for audio files.  
 
 Check [this](https://github.com/themrleon/tui-mp3-player) personal project for an UI for `mpg123`:  
-<img width="595" height="463" alt="image" src="https://github.com/user-attachments/assets/b8a2ccfc-34a4-4c20-b235-be0bb7d16c11" />
+<img width="687" height="525" alt="image" src="https://github.com/user-attachments/assets/e7948919-f7f3-4176-a375-dab4e0d918b7" />
 
 > [!WARNING]
 > Unfortunatelly using the 3.5mm audio jack you'll be able to hear noises, specially when CPU is doing something, but even when idle the audio signal is noisy, that seems to be a known issue and the only solution I found was to **power pi from an USB power bank** or battery, powering from wall adaptor creates the noise, also tried putting different capacitors, and recommendations like adding `disable_audio_dither=1` and `audio_pwm_mode=2` to `/boot/config.txt`, but that didn't help either.  
@@ -374,6 +374,9 @@ But [GL4S](https://github.com/ptitSeb/gl4es) may allow OpenGL games on the pi:
 
 > [!WARNING]
 > To compile gl4s on the rpi you need to leave a lot of RAM available, otherwise the compiler will keep crashing due to low memory (only worked when I had max ~80MB of RAM used, by unloading drivers with rmmod and setting GPU memory to 16MB). However I couldn't get it to work with a simple OpenGL hello world application, also tried `glxgears` and `glxinfo` without success (probably needs an x11 environment instead of console/framebuffer), the gl4s compilation took around 30 minutes (full overclocked pi)
+
+> [!TIP]
+> To see an OpenGL ES 2.0 benchmark using Raylib check [this](https://github.com/themrleon/raylib-cubenchmark) personal project!
 
 # Framebuffer Streaming vs VNC
 You can stream the framebuffer using `ffmpeg` with h.264 encoding:
@@ -442,3 +445,7 @@ The process to compile the tool is, from the `fbcp-ili9341` folder:
 
 > [!TIP]
 > To run the tool whenever pi boots, add an entry to `/etc/rc.local`, ex: `<tool path>/fbcp-ili9341/build/fbcp-ili9341 &`
+ 
+# Cyberdeck
+Putting all this infor into making a small portable computer with it, I present you the Raspberry Pi Cyberdeck:  
+[![Watch the video](https://img.youtube.com/vi/GxkUKVQvG-8/0.jpg)](https://www.youtube.com/watch?v=GxkUKVQvG-8)  
