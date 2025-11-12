@@ -447,5 +447,21 @@ The process to compile the tool is, from the `fbcp-ili9341` folder:
 > To run the tool whenever pi boots, add an entry to `/etc/rc.local`, ex: `<tool path>/fbcp-ili9341/build/fbcp-ili9341 &`
  
 # Cyberdeck
-Putting all this infor into making a small portable computer with it, I present you the Raspberry Pi Cyberdeck:  
+Putting everything into making a small portable computer with it, I present you the Raspberry Pi Cyberdeck:
 [![Watch the video](https://img.youtube.com/vi/GxkUKVQvG-8/0.jpg)](https://www.youtube.com/watch?v=GxkUKVQvG-8)  
+
+**Features**  
+* Overclocked @ 1 Ghz
+* Real-time power consumption
+* 3W stereo speakers (PAM8403 amplifier)
+* 2.8" TFT SPI ILI9341 320x240 screen
+* Can record, play and stream FHD 1920x1080 30 FPS h264 videos
+* Can control and be controlled remotelly via wifi
+* Can be used as IP webcam and video source for IA applications
+* Use USB connection for power
+* 2.4 Ghz wireless keyboard with touchpad
+* 5.8 Ghz Wifi
+* GPU with OpenGL ES 2.0
+* HDMI and RCA video out
+* 3.5mm audio jack
+  
